@@ -39,6 +39,7 @@ const Board = () => {
 
   const handleReset = () => {
     setGameState(initialGameState);
+    setRoundWon(false);
   };
 
   const handleWin = () => {
@@ -50,9 +51,6 @@ const Board = () => {
   };
 
   const checkForWinner = () => {
-    // let roundWon = false;
-    console.log(gameState);
-    console.log(roundWon);
     for (let i = 0; i < winningCombinations.length; i++) {
       const winCombo = winningCombinations[i];
 
@@ -66,17 +64,9 @@ const Board = () => {
 
       if (a === b && b === c) {
         setRoundWon(true);
-        console.log("inside:", roundWon);
-        // roundWon = true;
-        // console.log(roundWon);
-        break;
+        setTimeout(() => handleWin(), 100);
+        return;
       }
-    }
-
-    console.log("outside:", roundWon);
-    if (roundWon) {
-      setTimeout(() => handleWin(), 100);
-      return;
     }
 
     const handleDraw = () => {
@@ -90,7 +80,11 @@ const Board = () => {
     changePlayer();
   };
 
+  console.log(gameState);
+
   const handleSquareSelect = (e: any) => {
+    if(roundWon) return;
+
     const cellIndex = Number(e.target.getAttribute("data-cell-index"));
 
     const currentValue = gameState[cellIndex];
