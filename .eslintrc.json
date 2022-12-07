@@ -8,9 +8,16 @@
   ],
   "rules": {
     "react/prop-types": 0,
-    "react/react-in-jsx-scope": 0
+    "react/react-in-jsx-scope": 0,
+    "react-hooks/rules-of-hooks": "error", // Checks rules of Hooks
+    "react-hooks/exhaustive-deps": "warn" // Checks effect dependencies
   },
-  "plugins": ["react", "import", "jsx-a11y"],
+  "plugins": [
+    "react", 
+    "import", 
+    "jsx-a11y",
+    "react-hooks"
+  ],
   "parserOptions": {
     "ecmaVersion": 2022,
     "sourceType": "module",

@@ -16,6 +16,7 @@ const Board = () => {
   const [gameState, setGameState] = useState(initialGameState);
   const [currentPlayer, setCurrentPlayer] = useState("X");
   const [scores, setScores] = useState(initialScores);
+  const [roundWon, setRoundWon] = useState(false);
 
   useEffect(() => {
     checkForWinner();
@@ -31,34 +32,48 @@ const Board = () => {
     [3, 4, 5],
     [6, 7, 8],
   ];
+  
+  const changePlayer = () => {
+    setCurrentPlayer(currentPlayer === "X" ? "O" : "X");
+  };
+
+  const handleReset = () => {
+    setGameState(initialGameState);
+  };
+
+  const handleWin = () => {
+    window.alert(`Player ${currentPlayer} wins!`);
+    const newPlayerScore = scores[currentPlayer] + 1;
+    const newScores = { ...scores };
+    newScores[currentPlayer] = newPlayerScore;
+    setScores(newScores);
+  };
 
   const checkForWinner = () => {
-    let roundWon = false;
+    // let roundWon = false;
+    console.log(gameState);
+    console.log(roundWon);
     for (let i = 0; i < winningCombinations.length; i++) {
       const winCombo = winningCombinations[i];
 
-      let a = gameState[winCombo[0]];
-      let b = gameState[winCombo[1]];
-      let c = gameState[winCombo[2]];
+      let a = gameState[winCombo[0]]; //0
+      let b = gameState[winCombo[1]]; //1
+      let c = gameState[winCombo[2]]; //2
 
       if ([a, b, c].includes("")) {
         continue;
       }
 
       if (a === b && b === c) {
-        roundWon = true;
+        setRoundWon(true);
+        console.log("inside:", roundWon);
+        // roundWon = true;
+        // console.log(roundWon);
         break;
       }
     }
 
-    const handleWin = () => {
-      window.alert(`Player ${currentPlayer} wins!`);
-      const newPlayerScore = scores[currentPlayer] + 1;
-      const newScores = { ...scores };
-      newScores[currentPlayer] = newPlayerScore;
-      setScores(newScores);
-    };
-
+    console.log("outside:", roundWon);
     if (roundWon) {
       setTimeout(() => handleWin(), 100);
       return;
@@ -86,13 +101,7 @@ const Board = () => {
     setGameState(newValues);
   };
 
-  const changePlayer = () => {
-    setCurrentPlayer(currentPlayer === "X" ? "O" : "X");
-  };
 
-  const handleReset = () => {
-    setGameState(initialGameState);
-  };
 
   return (
     <div className="h-full p-8 text-slate-800 bg-gradient-to-r from-cyan-500 to-purple-500">
